@@ -1,0 +1,22 @@
+{
+  "name": "city-clicker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/SamStenton/city-clicker",
+  "author": "Samuel Stenton <sthstenton@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --config webpack/webpack.config.js",
+    "watch": "webpack --config webpack/webpack.config.js --watch",
+    "dev": "webpack-dev-server --config ./webpack/webpack.config.js --open"
+  },
+  "dependencies": {
+    "webpack": "^4.29.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14",
+      "css-loader": "^2.1.0",
+      "style-loader": "^0.23.1"
+  }
+}
