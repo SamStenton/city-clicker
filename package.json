@@ -11,12 +11,13 @@
     "dev": "webpack-dev-server --config ./webpack/webpack.config.js --open"
   },
   "dependencies": {
+    "mainloop.js": "^1.0.4",
     "webpack": "^4.29.0"
   },
   "devDependencies": {
+    "css-loader": "^2.1.0",
+    "style-loader": "^0.23.1",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^3.1.14",
-      "css-loader": "^2.1.0",
-      "style-loader": "^0.23.1"
+    "webpack-dev-server": "^3.1.14"
   }
 }
