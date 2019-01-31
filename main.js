@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\")(false);\n// Module\nexports.push([module.i, \"html, body { margin: 0; padding: 0; border: 0;}\\n\\ndiv {\\n  border: 1px solid black;\\n}\\n\\n\\n.app {\\n  width: 100%;\\n  height: 100%;\\n  min-height: 100%;\\n  display: flex;\\n  flex-direction: row;\\n}\\n\\n.stats, .unlocks {\\n flex: 1;\\n}\\n\\n\\n/* City Section */\\n.city {\\n  flex: 2;\\n  text-align: center;\\n}\\n\\n#city-clicker {\\n  background: lightpink;\\n  height: 100px;\\n  width: 100px;\\n  margin: auto;\\n  cursor: pointer;\\n}\\n\\n#city-clicker:active {\\n  height: 110px;\\n  width: 110px;\\n}\\n\", \"\"]);\n\n\n\n//# sourceURL=webpack:///./src/style.css?./node_modules/css-loader/dist/cjs.js");
+eval("exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ \"./node_modules/css-loader/dist/runtime/api.js\")(false);\n// Module\nexports.push([module.i, \"html, body { margin: 0; padding: 0; border: 0;}\\n\\n\\n.app {\\n  width: 100%;\\n  height: 100%;\\n  min-height: 100%;\\n  display: flex;\\n  flex-direction: row;\\n}\\n\\n.stats, .unlocks {\\n flex: 1;\\n}\\n\\n\\n/* City Section */\\n.city {\\n  flex: 2;\\n  text-align: center;\\n}\\n\\n#city-clicker {\\n  background: lightpink;\\n  height: 100px;\\n  width: 100px;\\n  margin: auto;\\n  cursor: pointer;\\n}\\n\\n#city-clicker:active {\\n  height: 110px;\\n  width: 110px;\\n}\\n\", \"\"]);\n\n\n\n//# sourceURL=webpack:///./src/style.css?./node_modules/css-loader/dist/cjs.js");
 
 /***/ }),
 
