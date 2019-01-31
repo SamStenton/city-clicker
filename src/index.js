@@ -40,8 +40,8 @@ function update() {
  * Draw content on page
  */
 function draw() {
-  document.getElementById('gold-value').innerHTML = Math.floor(gold.getValue());
-  document.getElementById('happiness-value').innerHTML = happiness.getValue();
+  document.getElementById('gold-value').textContent = Math.floor(gold.getValue());
+  document.getElementById('happiness-value').textContent = happiness.getValue();
 }
 
 // Launch the main game loop

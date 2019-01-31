@@ -3,7 +3,7 @@ class Resource {
     this.name = name;
     this.value = initialValue;
   }
-
+  
   add(amount) {
     this.value = this.value + amount;
   }
