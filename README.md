@@ -5,7 +5,7 @@ A multiplayer idle game
 
 ### Install
 ```
-yarn // npm install
+yarn or npm install
 ```
 
 ### Development
