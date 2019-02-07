@@ -13,6 +13,12 @@ html, body { margin: 0; padding: 0; border: 0;}
  flex: 1;
 }
 
+.unlock{
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-bottom: 1px dotted black;
+}
+
 
 /* City Section */
 .city {

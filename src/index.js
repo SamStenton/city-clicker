@@ -1,9 +1,23 @@
 import './style.css';
 import MainLoop from 'mainloop.js';
 import Resource from './resource.js';
+import Unlock from './unlock'
+import unlockConfig from './unlockConfig'
 
 const gold = new Resource('Gold', 0);
 const happiness = new Resource('Happiness', 1);
+
+const unlocks ={
+  goldMine: new Unlock('Gold Mine', unlockConfig.goldMine),
+  solar: new Unlock('Solar', unlockConfig.solar),
+  wind: new Unlock('Wind', unlockConfig.wind),
+  transport: new  Unlock('Transport', unlockConfig.transport),
+  schools: new Unlock('Schools', unlockConfig.schools),
+  hospitals: new Unlock('Hospitals', unlockConfig.hospitals)
+}
+
+
+
 let goldPerSecond = 1;
 
 
@@ -21,6 +35,13 @@ function initiate() {
   document.getElementById('city-clicker').addEventListener('click', (el) => {
     gold.add(1);
   });
+
+  window.goldMine.addEventListener('click', e => buyUnlock('goldMine'))
+  window.solar.addEventListener('click', e => buyUnlock('solar'))
+  window.transport.addEventListener('click', e => buyUnlock('transport'))
+  window.wind.addEventListener('click', e => buyUnlock('wind'))
+  window.school.addEventListener('click', e => buyUnlock('school'))
+  window.hospital.addEventListener('click', e => buyUnlock('hospital'))
 
   MainLoop
     .setUpdate(update)
@@ -42,6 +63,17 @@ function update() {
 function draw() {
   document.getElementById('gold-value').textContent = Math.floor(gold.getValue());
   document.getElementById('happiness-value').textContent = happiness.getValue();
+}
+
+function buyUnlock(unlock) {
+  if (gold.getValue() > unlockConfig[unlock].goldCost) {
+    let bought = unlocks[unlock].buy()
+    happiness.add( bought.happiness )
+    gold.remove( unlockConfig.goldMine.goldCost )
+    goldPerSecond = goldPerSecond + bought.goldPs
+  } else {
+    alert('Dont have enough gold')
+  }
 }
 
 // Launch the main game loop
