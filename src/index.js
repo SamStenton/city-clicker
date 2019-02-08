@@ -69,7 +69,7 @@ function buyUnlock(unlock) {
   if (gold.getValue() > unlockConfig[unlock].goldCost) {
     let bought = unlocks[unlock].buy()
     happiness.add( bought.happiness )
-    gold.remove( unlockConfig.goldMine.goldCost )
+    gold.remove( unlockConfig[unlock].goldCost )
     goldPerSecond = goldPerSecond + bought.goldPs
   } else {
     alert('Dont have enough gold')
