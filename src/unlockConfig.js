@@ -23,13 +23,13 @@ export default {
         initialGps: 0,
         additionalItemCost: 1.1
     },
-    schools: {
+    school: {
         goldCost: 1000,
         happinessChange: 1.5,
         initialGps: 0,
         additionalItemCost: 1.1
     },
-    hospitals: {
+    hospital: {
         goldCost: 2000,
         happinessChange: 2,
         initialGps: 0,

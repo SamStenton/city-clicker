@@ -12,8 +12,8 @@ const unlocks ={
   solar: new Unlock('Solar', unlockConfig.solar),
   wind: new Unlock('Wind', unlockConfig.wind),
   transport: new  Unlock('Transport', unlockConfig.transport),
-  schools: new Unlock('Schools', unlockConfig.schools),
-  hospitals: new Unlock('Hospitals', unlockConfig.hospitals)
+  school: new Unlock('Schools', unlockConfig.school),
+  hospital: new Unlock('Hospitals', unlockConfig.hospital)
 }
 
 
