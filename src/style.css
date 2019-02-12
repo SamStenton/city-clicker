@@ -13,10 +13,22 @@ html, body { margin: 0; padding: 0; border: 0;}
  flex: 1;
 }
 
+.stats {
+  font-size: 25px;
+}
+
+
 .unlock{
   cursor: pointer;
   margin-bottom: 10px;
   border-bottom: 1px dotted black;
+}
+
+#happinessProgress {
+  margin: 20px;
+  width: 200px;
+  height: 100px;
+  margin-bottom: 30px;
 }
 
 
@@ -37,4 +49,8 @@ html, body { margin: 0; padding: 0; border: 0;}
 #city-clicker:active {
   height: 110px;
   width: 110px;
+}
+
+body {
+  padding: 15px;
 }

@@ -40,5 +40,9 @@ export default {
         happinessChange: 2,
         initialGps: 0,
         additionalItemCost: 1.1
+    },
+    other: {
+        maxHappiness: 100,
+        minHappiness: 1
     }
 }

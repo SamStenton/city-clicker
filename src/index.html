@@ -3,6 +3,9 @@
 
 <head>
   <title>City Clicker</title>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.js"></script> -->
+  <link rel="stylesheet" href="http://github.hubspot.com/odometer/themes/odometer-theme-car.css" />
+  <script src="http://github.hubspot.com/odometer/odometer.js"></script>
 </head>
 
 <body>
@@ -10,13 +13,16 @@
     <div class="stats">
       <h3>Stats</h3>
       <div class="stat">
-        Gold: <span id="gold-value">0</span>
+        Gold: <span id="gold-value" class="odometer">0</span>
       </div>
       <div class="stat">
         Cities: 3
       </div>
       <div class="stat">
-        Happiness: <span id="happiness-value">0</span>
+        <div id="happinessProgress"></div>
+      </div>
+      <div class="stat">
+        Time: <span id="time-since-started"></span>
       </div>
     </div>
     <div class="city">
