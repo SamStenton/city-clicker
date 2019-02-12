@@ -12,8 +12,8 @@ const unlocks ={
   solar: new Unlock('Solar', unlockConfig.solar),
   wind: new Unlock('Wind', unlockConfig.wind),
   transport: new  Unlock('Transport', unlockConfig.transport),
-  school: new Unlock('Schools', unlockConfig.school),
-  hospital: new Unlock('Hospitals', unlockConfig.hospital)
+  school: new Unlock('School', unlockConfig.school),
+  hospital: new Unlock('Hospital', unlockConfig.hospital)
 }
 
 
@@ -36,13 +36,15 @@ function initiate() {
     gold.add(1);
   });
 
-  window.goldMine.addEventListener('click', e => buyUnlock('goldMine'))
-  window.solar.addEventListener('click', e => buyUnlock('solar'))
-  window.transport.addEventListener('click', e => buyUnlock('transport'))
-  window.wind.addEventListener('click', e => buyUnlock('wind'))
-  window.school.addEventListener('click', e => buyUnlock('school'))
-  window.hospital.addEventListener('click', e => buyUnlock('hospital'))
+  // Initial update for item costs + add event listeners 
+  for (let key in unlocks) {
+    const unlock = unlocks[key];
+    const unlockName = unlock.id;
+    document.getElementById(unlock.id).addEventListener('click', e => buyUnlock(unlockName))
+    updateUnlockDiv(unlock);
+  }
 
+  // Start MainLoop
   MainLoop
     .setUpdate(update)
     .setDraw(draw)
@@ -66,14 +68,42 @@ function draw() {
 }
 
 function buyUnlock(unlock) {
-  if (gold.getValue() > unlockConfig[unlock].goldCost) {
-    let bought = unlocks[unlock].buy()
-    happiness.add( bought.happiness )
-    gold.remove( unlockConfig[unlock].goldCost )
-    goldPerSecond = goldPerSecond + bought.goldPs
+  const item = unlocks[unlock];
+  const unlockCost = item.goldCost;
+  if (gold.getValue() >= unlockCost) {
+    let bought = item.buy()
+    happiness.multiply(bought.happiness)
+    gold.remove(unlockCost)
+    goldPerSecond = goldPerSecond + bought.goldPs;
+    updateUnlockDiv(item);
   } else {
     alert('Dont have enough gold')
   }
+}
+
+function updateUnlockDiv(item) {
+  const id = item.id;
+  const parent = document.getElementById(id);
+  parent.innerHTML = '';
+  // Create Title
+  let el = document.createElement('div');
+  el.className = 'unlock_title';
+  el.textContent = item.name;
+  parent.appendChild(el);
+  // Create Gold price
+  el = document.createElement('div');
+  el.className = 'unlock_cost';
+  el.textContent = `Cost: ${item.goldCost} Gold`;
+  parent.appendChild(el);
+  // Create Happiness multiplyer
+  el = document.createElement('div');
+  el.className = 'unlock_modifier';
+  let sign = '+';
+  if (item.happinessChange < 1) sign = '-';
+  // To 4 decimal places to keep screen clear
+  const happinessChange = Math.round((item.happinessChange) * 10000) / 10000;
+  el.textContent = `Effect on Happiness: ${happinessChange} (${sign})`;
+  parent.appendChild(el);
 }
 
 // Launch the main game loop

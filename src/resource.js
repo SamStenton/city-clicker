@@ -8,6 +8,10 @@ class Resource {
     this.value = this.value + amount;
   }
 
+  multiply(amount) {
+    this.value = this.value * amount;
+  }
+
   remove(amount) {
     this.value = this.value - amount;
   }

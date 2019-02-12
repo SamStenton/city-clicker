@@ -1,6 +1,7 @@
 class Unlock {
     constructor(name, config) {
         this.name = name
+        this.id = config.id
         this.goldCost = config.goldCost
         this.happinessChange = config.happinessChange
         this.initialGps = config.initialGps
@@ -9,11 +10,12 @@ class Unlock {
     }
     
     buy() {
-        let gold = this.isFirstPurchase ? this.goldCost : (this.goldCost + (this.goldCost * this.additionalItemCost))
+        this.goldCost = Math.round(this.goldCost * this.additionalItemCost);
+        const goldCost = this.goldCost;
         let happiness = this.happinessChange
         let goldPs = this.initialGps
         this.isFirstPurchase = false
-        return { gold, happiness, goldPs }
+        return { goldCost, happiness, goldPs }
     }
   
     prop(prop) { return this[prop] }
