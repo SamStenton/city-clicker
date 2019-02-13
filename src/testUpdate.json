@@ -1,0 +1,60 @@
+{
+  "unlocks": {
+    "goldMine": {
+      "name": "Gold Mine",
+      "id": "goldMine",
+      "goldCost": 103,
+      "happinessChange": 0.95,
+      "initialGps": 5,
+      "additionalItemCost": 1.2,
+      "numberTimesPurchased": 5
+    },
+    "solar": {
+      "name": "Solar",
+      "id": "solar",
+      "goldCost": 500,
+      "happinessChange": 1.001,
+      "initialGps": 1,
+      "additionalItemCost": 1.2,
+      "numberTimesPurchased": 1
+    },
+    "wind": {
+      "name": "Wind",
+      "id": "wind",
+      "goldCost": 1200,
+      "happinessChange": 1.001,
+      "initialGps": 2,
+      "additionalItemCost": 1.2,
+      "numberTimesPurchased": 2
+    },
+    "transport": {
+      "name": "Transport",
+      "id": "transport",
+      "goldCost": 1074,
+      "happinessChange": 1.025,
+      "initialGps": 0,
+      "additionalItemCost": 1.1,
+      "numberTimesPurchased": 9
+    },
+    "school": {
+      "name": "School",
+      "id": "school",
+      "goldCost": 1000,
+      "happinessChange": 1.025,
+      "initialGps": 0,
+      "additionalItemCost": 1.1,
+      "numberTimesPurchased": 1
+    },
+    "hospital": {
+      "name": "Hospital",
+      "id": "hospital",
+      "goldCost": 2000,
+      "happinessChange": 1.05,
+      "initialGps": 0,
+      "additionalItemCost": 1.1,
+      "numberTimesPurchased": 1
+    }
+  },
+  "gold": 10153.27482985154,
+  "happiness": 1.2196213004074272
+}

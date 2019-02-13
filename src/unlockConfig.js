@@ -9,14 +9,14 @@ export default {
     solar: {
         id: 'solar',
         goldCost: 500,
-        happinessChange: 1.001,
+        happinessChange: 1.01,
         initialGps: 1,
         additionalItemCost: 1.2
     }, 
     wind: {
         id: 'wind',
         goldCost: 1000,
-        happinessChange: 1.001,
+        happinessChange: 1.01,
         initialGps: 2,
         additionalItemCost: 1.2
     },
@@ -42,7 +42,8 @@ export default {
         additionalItemCost: 1.1
     },
     other: {
-        maxHappiness: 100,
-        minHappiness: 1
+        midHappiness: 1,
+        maxHappiness: 2,
+        minHappiness: 0.5
     }
 }

@@ -19,6 +19,10 @@ class Resource {
   getValue() {
     return this.value;
   }
+
+  setValue(newValue) {
+    this.value = newValue;
+  }
 }
 
 export default Resource;

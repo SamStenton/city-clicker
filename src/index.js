@@ -19,7 +19,7 @@ var happinessPb = new pb.SemiCircle(window.happinessProgress, {
   svgStyle: null,
   text: {
     color: 'rgb(255,55,100)',
-    value: `Happiness: ${happiness.getValue().toFixed(2)}&#37;`,
+    value: `Happiness: ${(calculateHappinessPercent() * 100).toFixed(2)}%`,
     alignToBottom: false
   },
   from: {color: '#FF738A'},
@@ -28,13 +28,15 @@ var happinessPb = new pb.SemiCircle(window.happinessProgress, {
   step: (state, bar) => {
     bar.path.setAttribute('stroke', state.color);
     if (bar.text) {
-      bar.text.style.color = state.color
-      bar.text.textContent = `Happiness: ${happiness.getValue().toFixed(2)}%`
+      bar.text.style.color = state.color;
+      bar.text.textContent = `Happiness: ${(calculateHappinessPercent() * 100).toFixed(2)}%`;
+      
     } 
   }
 });
+happinessPb.animate(50 / 100);
 
-const unlocks ={
+const unlocks = {
   goldMine: new Unlock('Gold Mine', unlockConfig.goldMine),
   solar: new Unlock('Solar', unlockConfig.solar),
   wind: new Unlock('Wind', unlockConfig.wind),
@@ -48,6 +50,24 @@ let goldPerSecond = 1;
 
 // Settings
 const timePerStep = 500;
+
+/**
+ * Load user data if exists, if not create. Then start.
+ */
+function load() {
+  const playedBefore = readStorage();
+  if (playedBefore) {
+    const id = playedBefore.id;
+    // socket event to get data using id;
+    //setUserData();
+    initiate(); // Remove once setUserData is uncommented;
+  } else {
+    // Create user as first time playing
+    createStorage();
+    initiate();
+  }
+}
+
 
 /**
  * Initiate the game
@@ -120,7 +140,8 @@ function buyUnlock(unlock) {
     gold.remove(unlockCost)
     goldPerSecond = goldPerSecond + bought.goldPs;
     updateUnlockDiv(item);
-    happinessPb.animate(happiness.getValue() / 100)
+    const happinessPercent = calculateHappinessPercent();
+    happinessPb.animate(happinessPercent);
   } else {
     alert('Dont have enough gold')
   }
@@ -151,6 +172,21 @@ function createUnlockDiv(parent, tag, className, textContent) {
   parent.appendChild(el);
 }
 
+function calculateHappinessPercent() {
+  const h = happiness.getValue();
+  const maxH = unlockConfig.other.maxHappiness;
+  const midH = unlockConfig.other.midHappiness;
+  const minH = unlockConfig.other.minHappiness;
+  let percent = 0.5;
+ if (h < midH) {
+    percent = (((midH - minH) / 100) * h) * 100;
+  } else if (h > midH) {
+    percent = (((maxH - midH) / 100) * h) * 100 / 2;
+  }
+  return percent;
+}
+
+// Gathers the user data to be sent via Socket
 function gatherUserData() {
   const data = {
     unlocks: unlocks,
@@ -160,5 +196,28 @@ function gatherUserData() {
   return data;
 }
 
-// Launch the main game loop
-initiate();
+// Sets the user data received from Socket and starts the game
+function setUserData(data) {
+  for (let key in data.unlocks) {
+    unlocks[key] = data.unlocks[key];
+  }
+  gold.setValue(data.gold);
+  happiness.setValue(data.happiness);
+  initiate();
+}
+
+function createStorage() {
+  const data = {
+    id: `${Math.floor((Math.random() * 100000000000) + 1)}`
+  }
+  window.localStorage.setItem('cityclicker', JSON.stringify(data))
+}
+
+function readStorage() {
+  const data = JSON.parse(window.localStorage.getItem('cityclicker'));
+  return data;
+}
+
+
+// Setup the main game and determine whether user has played before, then start
+load();
