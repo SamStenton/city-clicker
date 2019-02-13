@@ -46,7 +46,6 @@ const unlocks ={
 const timeStarted = moment()
 let goldPerSecond = 1;
 
-
 // Settings
 const timePerStep = 500;
 
@@ -128,28 +127,35 @@ function buyUnlock(unlock) {
 }
 
 function updateUnlockDiv(item) {
-  const id = item.id;
-  const parent = document.getElementById(id);
-  parent.innerHTML = '';
+  const parent = document.getElementById(item.id);
+
   // Create Title
-  let el = document.createElement('div');
-  el.className = 'unlock_title';
-  el.textContent = item.name;
-  parent.appendChild(el);
+  createUnlockDiv(parent, 'div', 'unlock_title', item.name);
+
   // Create Gold price
-  el = document.createElement('div');
-  el.className = 'unlock_cost';
-  el.textContent = `Cost: ${item.goldCost} Gold`;
-  parent.appendChild(el);
+  createUnlockDiv(parent, 'div', 'unlock_cost', `Cost: ${item.goldCost} Gold`);
+
   // Create Happiness multiplyer
-  el = document.createElement('div');
-  el.className = 'unlock_modifier';
-  let sign = '+';
-  if (item.happinessChange < 1) sign = '-';
+  const sign = (item.happinessChange < 1) ? sign = '-' : '+';
+
   // To 4 decimal places to keep screen clear
   const happinessChange = Math.round((item.happinessChange) * 10000) / 10000;
-  el.textContent = `Effect on Happiness: ${happinessChange} (${sign})`;
+  createUnlockDiv(parent, 'div', 'unlock_modifier', `Effect on Happiness: ${happinessChange} (${sign})`);
+}
+
+function createUnlockDiv(parent, tag, className, textContent) {
+  const el = document.createElement(tag);
+  el.className = className;
+  el.textContent = textContent;
   parent.appendChild(el);
+}
+
+function gatherUserData() {
+  const data = {
+    unlocks: unlocks,
+    gold: gold.getValue()
+  }
+  return data;
 }
 
 // Launch the main game loop

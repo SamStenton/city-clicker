@@ -6,19 +6,17 @@ class Unlock {
         this.happinessChange = config.happinessChange
         this.initialGps = config.initialGps
         this.additionalItemCost = config.additionalItemCost
-        this.isFirstPurchase = true
+        this.numberTimesPurchased = 1;
     }
     
     buy() {
         this.goldCost = Math.round(this.goldCost * this.additionalItemCost);
         const goldCost = this.goldCost;
-        let happiness = this.happinessChange
-        let goldPs = this.initialGps
-        this.isFirstPurchase = false
+        let happiness = this.happinessChange;
+        let goldPs = this.initialGps;
+        this.numberTimesPurchased++;
         return { goldCost, happiness, goldPs }
     }
-  
-    prop(prop) { return this[prop] }
 }
   
 export default Unlock;
