@@ -44,6 +44,12 @@ export default {
     other: {
         midHappiness: 1,
         maxHappiness: 2,
-        minHappiness: 0.5
+        minHappiness: 0.5,
+        dynamicHappiness: {
+            divider: 1000,
+            runsWhenConatins: [231, 898],
+            minRandom: 1,
+            maxRandom: 999
+        }
     }
 }

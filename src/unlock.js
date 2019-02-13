@@ -6,7 +6,7 @@ class Unlock {
         this.happinessChange = config.happinessChange
         this.initialGps = config.initialGps
         this.additionalItemCost = config.additionalItemCost
-        this.numberTimesPurchased = 1;
+        this.numberTimesPurchased = 0;
     }
     
     buy() {
@@ -20,3 +20,10 @@ class Unlock {
 }
   
 export default Unlock;
+
+// gold = 1000
+// goldmine purchase = 2 happiness change is 0.95
+// hospital = 4 happiness change is 1.05
+// 2 * 0.95 = 1.90
+// 4 * 1.05 = 4.20
+// 

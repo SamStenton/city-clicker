@@ -122,8 +122,34 @@ function draw() {
   window['gold-value'].textContent = Math.floor(gold.getValue());
   // window['happiness-value'].textContent = happiness.getValue().toFixed(2);
   window['time-since-started'].textContent = getTimeDuration()
+  dynamicHappiness()
 }
 
+function dynamicHappiness() {
+    
+    if (random()) {
+      let goldMineHappiness = 0
+      let otherHappiness = 0
+      for (let key in unlocks) {
+        const unlock = unlocks[key];
+        if (unlock.id === 'goldMine') goldMineHappiness += unlock.numberTimesPurchased * unlock.happinessChange
+        else otherHappiness += unlock.numberTimesPurchased * unlock.happinessChange
+      }
+      if (goldMineHappiness > otherHappiness) {
+        happiness.setValue( happiness.getValue() - (goldMineHappiness / unlockConfig.other.dynamicHappiness.divider))
+      } else {
+        happiness.setValue( happiness.getValue() + (otherHappiness / unlockConfig.other.dynamicHappiness.divider))
+      }
+      happinessPb.animate(calculateHappinessPercent())
+    }
+}
+
+function random() { 
+  let min = unlockConfig.other.dynamicHappiness.minRandom
+  let max = unlockConfig.other.dynamicHappiness.maxRandom
+  let num = Math.floor( Math.random() * max ) + min 
+  return unlockConfig.other.dynamicHappiness.runsWhenConatins.includes(num)
+}
 
 function buyUnlock(unlock) {
   const item = unlocks[unlock];
