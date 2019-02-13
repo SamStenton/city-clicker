@@ -128,6 +128,7 @@ function buyUnlock(unlock) {
 
 function updateUnlockDiv(item) {
   const parent = document.getElementById(item.id);
+  parent.innerHTML = '';
 
   // Create Title
   createUnlockDiv(parent, 'div', 'unlock_title', item.name);
@@ -136,7 +137,7 @@ function updateUnlockDiv(item) {
   createUnlockDiv(parent, 'div', 'unlock_cost', `Cost: ${item.goldCost} Gold`);
 
   // Create Happiness multiplyer
-  const sign = (item.happinessChange < 1) ? sign = '-' : '+';
+  const sign = (item.happinessChange < 1) ? '-' : '+';
 
   // To 4 decimal places to keep screen clear
   const happinessChange = Math.round((item.happinessChange) * 10000) / 10000;
