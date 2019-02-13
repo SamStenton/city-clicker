@@ -182,6 +182,7 @@ function updateUnlockDiv(item) {
 
   // Create Gold price
   createUnlockDiv(parent, 'div', 'unlock_cost', `Cost: ${item.goldCost} Gold`);
+  createUnlockDiv(parent, 'div', 'unlock_cost', `Purchased already: ${item.numberTimesPurchased}`)
 
   // Create Happiness multiplyer
   const sign = (item.happinessChange < 1) ? '-' : '+';
