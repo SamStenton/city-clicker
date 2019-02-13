@@ -19,7 +19,7 @@ var happinessPb = new pb.SemiCircle(window.happinessProgress, {
   svgStyle: null,
   text: {
     color: 'rgb(255,55,100)',
-    value: `Happiness: ${happiness.getValue().toFixed(2)}`,
+    value: `Happiness: ${happiness.getValue().toFixed(2)}&#37;`,
     alignToBottom: false
   },
   from: {color: '#FF738A'},
@@ -29,7 +29,7 @@ var happinessPb = new pb.SemiCircle(window.happinessProgress, {
     bar.path.setAttribute('stroke', state.color);
     if (bar.text) {
       bar.text.style.color = state.color
-      bar.text.textContent = `Happiness: ${happiness.getValue().toFixed(2)}`
+      bar.text.textContent = `Happiness: ${happiness.getValue().toFixed(2)}%`
     } 
   }
 });
@@ -154,7 +154,8 @@ function createUnlockDiv(parent, tag, className, textContent) {
 function gatherUserData() {
   const data = {
     unlocks: unlocks,
-    gold: gold.getValue()
+    gold: gold.getValue(),
+    happiness: happiness.getValue()
   }
   return data;
 }
