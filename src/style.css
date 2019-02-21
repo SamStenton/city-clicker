@@ -11,6 +11,7 @@ html, body { margin: 0; padding: 0; border: 0;}
 
 .stats, .unlocks {
  flex: 1;
+ padding: 10px;
 }
 
 .stats {
@@ -53,4 +54,10 @@ html, body { margin: 0; padding: 0; border: 0;}
 
 body {
   padding: 15px;
+}
+
+  #map {
+  height: 500px;
+  width: 700px;
+  padding: 10px;
 }

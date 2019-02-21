@@ -5,9 +5,18 @@ import Unlock from './unlock'
 import unlockConfig from './unlockConfig'
 import moment from 'moment'
 import pb from 'progressbar.js'
+import cities from 'cities.json'
 
 const gold = new Resource('Gold', 0);
 const happiness = new Resource('Happiness', 1);
+let userCircle
+let map
+var D2R = Math.PI/180.0; // value used for converting degrees to radians
+let capturedCities = new Array()
+
+Number.prototype.toRadians = function() {
+  return this * D2R;
+};
 
 var happinessPb = new pb.SemiCircle(window.happinessProgress, {
   strokeWidth: 6,
@@ -55,6 +64,7 @@ const timePerStep = 500;
  * Load user data if exists, if not create. Then start.
  */
 function load() {
+  // window.gMapsApi.src.replace('YOUR_API_KEY', unlockConfig.other.gmapApi)
   const playedBefore = readStorage();
   if (playedBefore) {
     const id = playedBefore.id;
@@ -102,6 +112,10 @@ function initiate() {
  */
 function update() {
   gold.add((goldPerSecond * happiness.getValue()) / (1000 / timePerStep));
+  if (window.google && userCircle) {
+    userCircle.setRadius(gold.getValue() * happiness.getValue())
+    map.fitBounds(userCircle.getBounds(), 200)
+  }
 }
 
 function getTimeDuration(){
@@ -127,7 +141,7 @@ function draw() {
 
 function dynamicHappiness() {
     
-    if (random()) {
+    if (changeHappinessRandomly()) {
       let goldMineHappiness = 0
       let otherHappiness = 0
       for (let key in unlocks) {
@@ -144,10 +158,10 @@ function dynamicHappiness() {
     }
 }
 
-function random() { 
+function changeHappinessRandomly() { 
   let min = unlockConfig.other.dynamicHappiness.minRandom
   let max = unlockConfig.other.dynamicHappiness.maxRandom
-  let num = Math.floor( Math.random() * max ) + min 
+  let num = rand(min, max)
   return unlockConfig.other.dynamicHappiness.runsWhenConatins.includes(num)
 }
 
@@ -245,6 +259,172 @@ function readStorage() {
   return data;
 }
 
+function distance(lat0,lng0,lat1,lng1){
 
+  // convert degrees to radians
+  var rlat0 = lat0.toRadians();
+  var rlng0 = lng0.toRadians();
+  var rlat1 = lat1.toRadians();
+  var rlng1 = lng1.toRadians();
+
+  // calculate the differences for both latitude and longitude (the deltas)
+  var Δlat=(rlat1-rlat0);
+  var Δlng=(rlng1-rlng0);
+
+  // calculate the great use haversine formula to calculate great-circle distance between two points
+  var a = Math.pow(Math.sin(Δlat/2),2) + Math.pow(Math.sin(Δlng/2),2)*Math.cos(rlat0)*Math.cos(rlat1);
+  var c = 2*Math.asin(Math.sqrt(a));
+  var d = c * 6378137;  // multiply by the radius of the great-circle (average radius of the earth in meters)
+
+  return d;
+}
+
+ function hasIntersections(circle0,circle1){
+   var center0 = circle0.getCenter();
+   var center1 = circle1.getCenter();
+
+   var maxDist = circle0.getRadius() + circle1.getRadius();
+   var actualDist = distance( center0.lat(), center0.lng(), center1.lat(), center1.lng() );
+
+   return maxDist >= actualDist;
+ }
+
+function rand(min,max) {
+  return Math.floor(Math.random() * (max-min + 1) + min)
+}
+
+function getRandomCity() {
+  let max = 128769
+  let city = cities[ rand(0, max) ]
+  return { 
+    ...city,
+    lat: parseFloat(city.lat),
+    lng: parseFloat(city.lng),
+  }
+}
+
+function arePointsNear(checkPoint, centerPoint, m) { // credits to user:69083
+  var km = m/1000;
+  var ky = 40000 / 360;
+  var kx = Math.cos(Math.PI * centerPoint.lat / 180.0) * ky;
+  var dx = Math.abs(centerPoint.lng - checkPoint.lng) * kx;
+  var dy = Math.abs(centerPoint.lat - checkPoint.lat) * ky;
+  return Math.sqrt(dx * dx + dy * dy) <= km;
+}
+
+function getListOfCountriesUserHasGot() {
+
+  setInterval(() => {
+
+    let radius = userCircle.getRadius()
+    let circleCenter = { lat: userCircle.getCenter().lat(), lng: userCircle.getCenter().lng() }
+    console.log(radius, circleCenter)
+    cities.forEach( city => {
+
+      let cityCenter = { lat: parseFloat(city.lat), lng: parseFloat(city.lng) }
+      let cityCaptured = arePointsNear(circleCenter, cityCenter, radius)
+      if (cityCaptured) {
+        if (!capturedCities.some( obj => obj.city === city)) capturedCities.push({city: city, captureTime: new Date()})
+      }
+    })
+
+    window['city-count'].textContent = capturedCities.length
+    console.log(capturedCities)
+
+  }, 1000 * 20)
+}
+
+function initMap() {
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 14,
+      mapTypeId: 'terrain'
+    });
+
+    let randomCity = getRandomCity()
+    window.city.textContent = `${randomCity.name}, ${randomCity.country}`
+
+    userCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      title: 'yourname',
+      map: map,
+      center: {lat: randomCity.lat, lng: randomCity.lng},
+      radius: gold.getValue() * happiness.getValue()
+    });
+
+    getListOfCountriesUserHasGot()
+
+
+    var myOptions = {
+      content: "Somebody",
+      boxStyle: {
+        background: '#FFFFFF',
+        color: '#000000',
+        textAlign: "center",
+        fontSize: "8pt",
+        width: "50px"
+      },
+      disableAutoPan: true,
+      pixelOffset: new google.maps.Size(-25, -10), // left upper corner of the label
+      position: new google.maps.LatLng(randomCity.lat, randomCity.lng),
+      closeBoxURL: "",
+      isHidden: false,
+      pane: "floatPane",
+      zIndex: 100,
+      enableEventPropagation: true
+    };
+    var ib = new InfoBox(myOptions);
+
+    ib.open(map);
+
+    // var data = {
+    //   type: "Feature",
+    //   geometry: {
+    //     "type": "Polygon",
+    //     "coordinates": [
+    //       [
+    //         [-73.974228, 40.75597],
+    //         [-73.983841, 40.742931],
+    //         [-74.008133, 40.75307500000001],
+    //         [-73.998131, 40.765915],
+    //         [-73.974228, 40.75597]
+    //       ]
+    //     ]
+    //   }
+    // };
+
+    // var mapProp = {
+    //   center: new google.maps.LatLng(51.1871516,-0.754739060819892),
+    //   zoom: 8,
+    //   mapTypeId: google.maps.MapTypeId.ROADMAP
+    // };
+  
+    // var map = new google.maps.Map(document.getElementById("map"), mapProp);
+
+  
+    // map.data.addGeoJson(unlockConfig.other.tiflfordBoundary);
+    // area = unlockConfig.other.tiflfordBoundary
+    // setInterval(() => {
+    //   let newdata = area
+    //   for (let i in newdata.geometry.coordinates[0]) {
+    //     if (Math.random() > 0.5) {
+    //       newdata.geometry.coordinates[0][i][0] = newdata.geometry.coordinates[0][i][0] - (gold.getValue() / 1000)
+    //       newdata.geometry.coordinates[0][i][1] = newdata.geometry.coordinates[0][i][1] + (gold.getValue() / 1000)
+    //     } else {
+    //       newdata.geometry.coordinates[0][i][0] = newdata.geometry.coordinates[0][i][0] + (gold.getValue() / 1000)
+    //       newdata.geometry.coordinates[0][i][1] = newdata.geometry.coordinates[0][i][1] - (gold.getValue() / 1000)
+    //     }
+        
+    //   }
+    //   map.data.addGeoJson(newdata)
+    //   area = newdata
+    // }, 5000)
+}
+// initialize()
+window.addEventListener('load', e => initMap())
 // Setup the main game and determine whether user has played before, then start
 load();

@@ -16,7 +16,7 @@
         Gold: <span id="gold-value" class="odometer">0</span>
       </div>
       <div class="stat">
-        Cities: 3
+        Cities: <span id="city-count">0</span>
       </div>
       <div class="stat">
         <div id="happinessProgress"></div>
@@ -24,10 +24,11 @@
       <div class="stat">
         Time: <span id="time-since-started"></span>
       </div>
+      <div id="city-clicker"></div>
     </div>
     <div class="city">
-      <h3>City: Laandan</h3>
-      <div id="city-clicker"></div>
+      <h3 id="city">City: Laandan</h3>
+      <div id="map"></div>
     </div>
     <div class="unlocks">
       <div class="local-singles">
@@ -58,6 +59,11 @@
     </div>
   </div>
   <script src="main.js"></script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyBsrGHffGK68Tg9ZIwbpVF1GQeGdtKcGpM"></script> -->
+  <script id="gMapsApi"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsrGHffGK68Tg9ZIwbpVF1GQeGdtKcGpM">
+  </script>
+  <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/infobox/src/infobox.js"></script>
 </body>
 
 </html>
